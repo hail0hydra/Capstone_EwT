@@ -214,7 +214,7 @@ source "$EwTPath/language/en.sh"
 # ============================================================ #
 # ================== < Startup & Shutdown > ================== #
 # ============================================================ #
-fluxion_startup() {
+startup() {
   if [ "$FLUXIONDebug" ]; then return 1; fi
 
   # Make sure that we save the iptable files
@@ -232,12 +232,6 @@ fluxion_startup() {
   figlet -tsck Evil_niwT_FW
 
   echo # Do not remove.
-
-  sleep 0.1
-
-  sleep 0.1
-
-  sleep 0.1
 
   echo # Do not remove.
 
@@ -268,7 +262,7 @@ fluxion_startup() {
   echo -e "\\n\\n" # This echo is for spacing
 }
 
-fluxion_shutdown() {
+shutdown() {
   if [ $FLUXIONDebug ]; then return 1; fi
 
   # Show the header if the subroutine has already been loaded.
@@ -440,11 +434,11 @@ trap fluxion_handle_abort_attack SIGABRT
 
 fluxion_handle_exit() {
   fluxion_handle_abort_attack
-  fluxion_shutdown
+  shutdown
   exit 1
 }
 
-# In case of unexpected termination, run fluxion_shutdown.
+# In case of unexpected termination, run shutdown.
 trap fluxion_handle_exit SIGINT SIGHUP
 
 
@@ -488,7 +482,7 @@ trap fluxion_handle_target_change SIGALRM
 # ============================================================ #
 # =============== < Resolution & Positioning > =============== #
 # ============================================================ #
-fluxion_set_resolution() { # Windows + Resolution
+set_resolution() { # Windows + Resolution
 
   # Get dimensions
   # Verify this works on Kali before commiting.
@@ -667,11 +661,29 @@ fluxion_do_sequence() {
 # ============================================================ #
 # ================= < Load All Subroutines > ================= #
 # ============================================================ #
+# fluxion_header() {
+#   format_apply_autosize "[%*s]\n"
+#   local verticalBorder=$FormatApplyAutosize
+#
+#   format_apply_autosize "[%*s${CSRed}FLUXION $FLUXIONVersion${CSWht}.${CSBlu}$FLUXIONRevision$CSRed    <$CIRed F${CIYel}luxion$CIRed I${CIYel}s$CIRed T${CIYel}he$CIRed F${CIYel}uture$CClr$CSYel >%*s$CSBlu]\n"
+#   local headerTextFormat="$FormatApplyAutosize"
+#
+#   fluxion_conditional_clear
+#
+#   echo -e "$(printf "$CSRed$verticalBorder" "" | sed -r "s/ /~/g")"
+#   printf "$CSRed$verticalBorder" ""
+#   printf "$headerTextFormat" "" ""
+#   printf "$CSBlu$verticalBorder" ""
+#   echo -e "$(printf "$CSBlu$verticalBorder" "" | sed -r "s/ /~/g")$CClr"
+#   echo
+#   echo
+# }
+
 fluxion_header() {
   format_apply_autosize "[%*s]\n"
   local verticalBorder=$FormatApplyAutosize
 
-  format_apply_autosize "[%*s${CSRed}FLUXION $FLUXIONVersion${CSWht}.${CSBlu}$FLUXIONRevision$CSRed    <$CIRed F${CIYel}luxion$CIRed I${CIYel}s$CIRed T${CIYel}he$CIRed F${CIYel}uture$CClr$CSYel >%*s$CSBlu]\n"
+  format_apply_autosize "[%*s${CSRed}Evil_niwT Framework$CClr%*s$CSBlu]\n"
   local headerTextFormat="$FormatApplyAutosize"
 
   fluxion_conditional_clear
@@ -684,6 +696,7 @@ fluxion_header() {
   echo
   echo
 }
+
 
 # ======================= < Language > ======================= #
 fluxion_unset_language() {
@@ -1887,13 +1900,21 @@ while [ "$1" != "" -a "$1" != "--" ]; do
   shift # Shift new parameters
 done
 
+
+
+########### TESTING
+
+FluxionLanguage="en"
+
+
+
 # ============================================================ #
 # ===================== < Main Loop > ===================== #
 # ============================================================ #
-fluxion_main() {
-  fluxion_startup
+EwT_main() {
+  startup
 
-  fluxion_set_resolution
+  set_resolution
 
   local sequence=(
     "set_language"
@@ -1906,9 +1927,9 @@ fluxion_main() {
     fluxion_do_sequence fluxion sequence[@]
   done
 
-  fluxion_shutdown
+  shutdown
 }
 
-fluxion_main # Start
+EwT_main # Start
 
 # END

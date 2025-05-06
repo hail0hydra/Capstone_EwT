@@ -7,7 +7,8 @@ if [ ! "$FLUXIONLibPath" ]; then return 1; fi
 
 IOUtilsHeader="[x] ================================ [x]"
 IOUtilsQueryMark="[-] "
-IOUtilsPrompt="[$USER@$HOSTNAME]> "
+# IOUtilsPrompt="[$USER@$HOSTNAME]> "
+IOUtilsPrompt="[$HOSTNAME]> "
 
 if [ ! "$ArrayUtilsVersion" ]; then
   source "$FLUXIONLibPath/ArrayUtils.sh"
